@@ -11,9 +11,10 @@ import {
   findOneBy,
   findOneById,
 } from "../services/chatroom"
-const SendMessage: RequestHandler = async (req, res) => {
+const SendMessageTextByCol: RequestHandler = async (req, res) => {
   //sub
   const sub = req.body.sub
+
   if (!sub) {
     return res.status(401).json({ message: "Token is required" })
   }
@@ -31,7 +32,11 @@ const SendMessage: RequestHandler = async (req, res) => {
     return res.status(404).json({ message: "User not found" })
   }
 
-  if (user.role !== "collaborator") {
+  console.log({
+    user: user,
+  })
+
+  if ((user.role as string) !== "COLLABORATEUR") {
     return res
       .status(403)
       .json({ message: "You are not allowed to send a message" })
@@ -75,7 +80,8 @@ const SendMessage: RequestHandler = async (req, res) => {
   message.message = bodyMessage.message
   message.chatRoom = chatRoom
   message.senderAlias = "collaborator"
-  message.message = req.body.message
+  message.sender = sub
+  message.sentAt = new Date()
 
   try {
     await saveMessage(message)
@@ -106,7 +112,7 @@ const getMyConvo: RequestHandler = async (req, res) => {
     return res.status(404).json({ message: "User not found" })
   }
 
-  if ((user.role as string).toLowerCase() !== "collaborator") {
+  if ((user.role as string) !== "COLLABORATEUR") {
     return res
       .status(403)
       .json({ message: "You are not allowed to send a message" })
@@ -125,7 +131,7 @@ const getMyConvo: RequestHandler = async (req, res) => {
 
   let messages: any = []
   try {
-    messages = await getMessagesByChatRoomId(chatRoom.id)
+    messages = await getMessagesByChatRoomId(chatRoom)
   } catch (e: any) {
     return res.status(500).json({ message: e.message })
   }
@@ -133,4 +139,4 @@ const getMyConvo: RequestHandler = async (req, res) => {
   return res.status(200).json(messages)
 }
 
-export { SendMessage }
+export { SendMessageTextByCol, getMyConvo }

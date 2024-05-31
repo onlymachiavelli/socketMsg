@@ -16,9 +16,6 @@ class Message extends BaseEntity {
   message: string
 
   @Column()
-  date: Date
-
-  @Column()
   sender: string //either "admin" or "collaborateur"
 
   @Column()

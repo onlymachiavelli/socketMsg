@@ -6,6 +6,7 @@ import { getAll } from "../services/chatroom"
 const getAllRooms: RequestHandler = async (req, res) => {
   //sub
   const sub = req.body.sub
+  console.log({ sub })
   if (!sub) {
     return res.status(401).json({ message: "Token is required" })
   }
@@ -23,7 +24,7 @@ const getAllRooms: RequestHandler = async (req, res) => {
     return res.status(404).json({ message: "User not found" })
   }
 
-  if ((user.role as string).toLowerCase() !== "admin") {
+  if ((user.role as string) !== "ADMIN") {
     return res
       .status(403)
       .json({ message: "You are not allowed to send a message" })
