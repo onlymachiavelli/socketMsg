@@ -11,6 +11,7 @@ import {
   findOneBy,
   findOneById,
 } from "../services/chatroom"
+import { SocketSendMessage } from "../utils/socket"
 const SendMessageTextByCol: RequestHandler = async (req, res) => {
   //sub
   const sub = req.body.sub
@@ -88,6 +89,13 @@ const SendMessageTextByCol: RequestHandler = async (req, res) => {
   } catch (e: any) {
     return res.status(500).json({ message: e.message })
   }
+
+  SocketSendMessage({
+    message: message.message,
+    sender: message.sender,
+    chatRoomId: chatRoom.id,
+  })
+
   return res.status(201).json({ message: "Message sent" })
 }
 

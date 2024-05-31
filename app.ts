@@ -39,6 +39,7 @@ appDataSource.initialize().then((r) => {
   app
     .listen(port, () => {
       console.log(`Server started at http://localhost:${port}`)
+
       app.use("/user", userRouter)
       app.use("/chatroom", chatRoomRouter)
       app.use("/messages", msgRouter)

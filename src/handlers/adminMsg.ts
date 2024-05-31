@@ -5,6 +5,8 @@ import { SendMessage, SendByAdmin, SendByCollaborator } from "../types/send"
 import { findByMatricule } from "../services/user"
 import { RequestHandler } from "express"
 import { getMessagesByChatRoomId, saveMessage } from "./../services/messages"
+
+import { SocketSendMessage } from "./../utils/socket"
 import {
   createChatRoom,
   getAll,
@@ -83,6 +85,15 @@ const SendMessageTextByAdmin: RequestHandler = async (req, res) => {
   } catch (e: any) {
     return res.status(500).json({ message: e.message })
   }
+
+  //send to socket
+  SocketSendMessage({
+    message: message.message,
+    sender: message.sender,
+    chatRoomId: chatRoom.id,
+    sentAt: message.sentAt,
+  })
+
   return res.status(201).json({ message: "Message sent" })
 }
 

@@ -2,6 +2,7 @@ import { RequestHandler } from "express"
 import ChatRoom from "../models/chatRoom"
 import User from "../models/user"
 import { getAll } from "../services/chatroom"
+import { SocketSendMessage } from "./../utils/socket"
 
 const getAllRooms: RequestHandler = async (req, res) => {
   //sub
