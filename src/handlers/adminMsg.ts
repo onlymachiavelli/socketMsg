@@ -12,6 +12,7 @@ import {
   getAll,
   findOneBy,
   findOneById,
+  findOneByMatricule,
 } from "../services/chatroom"
 
 const SendMessageTextByAdmin: RequestHandler = async (req, res) => {
@@ -126,10 +127,14 @@ const getConvo: RequestHandler = async (req, res) => {
   //find a chatroom
 
   let matriculeColl: string = req.params.coll
+  console.log({ matriculeColl })
 
   let chatRoom: any
   try {
-    chatRoom = await findByMatricule(matriculeColl)
+    chatRoom = await findOneByMatricule(matriculeColl)
+    if (!chatRoom) {
+      return res.status(404).json({ message: "Chatroom not found" })
+    }
   } catch (e: any) {
     return res.status(500).json({ message: e.message })
   }

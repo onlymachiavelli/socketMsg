@@ -22,4 +22,10 @@ const findOneById = async (id: number) => {
   })
 }
 
-export { createChatRoom, getAll, findOneBy, findOneById }
+const findOneByMatricule = async (matricule: string) => {
+  return await ChatRoom.findOneBy({
+    collaboratorMatricule: matricule,
+  })
+}
+
+export { createChatRoom, getAll, findOneBy, findOneById, findOneByMatricule }

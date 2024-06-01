@@ -8,9 +8,6 @@ enum Role {
 
 @Entity()
 class User extends BaseEntity {
-  // @PrimaryGeneratedColumn()
-  // bigint
-
   @Column({
     type: "bigint",
     primary: true,

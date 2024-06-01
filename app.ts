@@ -5,8 +5,8 @@ import appDataSource from "./src/utils/connect"
 import { json } from "body-parser"
 import cors from "cors"
 import jwt from "jsonwebtoken"
-import chatRoomRouter from "./src/routes/chatroom"
 
+import chatRoomRouter from "./src/routes/chatroom"
 import userRouter from "./src/routes/user"
 import msgRouter from "./src/routes/messages"
 
@@ -34,8 +34,12 @@ const token2 = jwt.sign({ sub: t2 }, process.env.SECRET as string, {
 
 console.log("Token : ad", token2)
 
+//attempt to connect to the database
 appDataSource.initialize().then((r) => {
+  //connected
   console.log("Connected to database")
+
+  //attempt to connect to the express server
   app
     .listen(port, () => {
       console.log(`Server started at http://localhost:${port}`)
@@ -45,6 +49,7 @@ appDataSource.initialize().then((r) => {
       app.use("/messages", msgRouter)
     })
     .on("error", (e) => {
+      //if not connected to the server
       console.log("Error starting server, error : => ", e)
     })
 })
