@@ -4,6 +4,8 @@ import User from "../models/user"
 import { getAll } from "../services/chatroom"
 import { SocketSendMessage } from "./../utils/socket"
 
+//get users
+
 const getAllRooms: RequestHandler = async (req, res) => {
   //sub
   const sub = req.body.sub
@@ -35,6 +37,19 @@ const getAllRooms: RequestHandler = async (req, res) => {
   let chatRooms: any
   try {
     chatRooms = await getAll()
+
+    //get all the users in the chatrooms
+    for (let i = 0; i < chatRooms.length; i++) {
+      let users
+      try {
+        users = await User.findOneBy({
+          matricule: chatRooms[i].matricule,
+        })
+      } catch (e: any) {
+        return res.status(500).json({ message: e.message })
+      }
+      chatRooms[i].users = users
+    }
   } catch (e: any) {
     return res.status(500).json({ message: e.message })
   }

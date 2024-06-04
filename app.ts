@@ -17,15 +17,12 @@ app.use(cors())
 
 const port = process.env.PORT
 
-//col
 let t1: string = "12227"
 
-//generate token
 const token = jwt.sign({ sub: t1 }, process.env.SECRET as string, {
   expiresIn: "7d",
 })
 console.log("Token : col", token)
-//ad
 let t2: string = "9876"
 
 const token2 = jwt.sign({ sub: t2 }, process.env.SECRET as string, {
@@ -43,6 +40,8 @@ appDataSource.initialize().then((r) => {
   app
     .listen(port, () => {
       console.log(`Server started at http://localhost:${port}`)
+
+      //singleton
 
       app.use("/user", userRouter)
       app.use("/chatroom", chatRoomRouter)
