@@ -23,6 +23,7 @@ const token = jwt.sign({ sub: t1 }, process.env.SECRET as string, {
   expiresIn: "7d",
 })
 console.log("Token : col", token)
+
 let t2: string = "9876"
 
 const token2 = jwt.sign({ sub: t2 }, process.env.SECRET as string, {
@@ -30,7 +31,19 @@ const token2 = jwt.sign({ sub: t2 }, process.env.SECRET as string, {
 })
 
 console.log("Token : ad", token2)
+export const io = require("socket.io")(3000, {
+  cors: {
+    origin: "http://localhost:4200",
+  },
+})
 
+// io.on("connection", (socket: any) => {
+//   console.log("User connected")
+//   socket.on("message", (msg: any) => {
+//     console.log("message: " + msg)
+//     io.emit("message", msg)
+//   })
+// })
 //attempt to connect to the database
 appDataSource.initialize().then((r) => {
   //connected
