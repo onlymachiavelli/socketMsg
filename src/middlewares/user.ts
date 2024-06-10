@@ -16,12 +16,13 @@ const auth: RequestHandler = async (req, res, nxt) => {
   }
 
   try {
-    const decoded: any = jwt.verify(token, process.env.SECRET as string)
+    const decoded: any = jwt.decode(token)
     req.body.sub = decoded.sub
 
     console.log({ decoded: decoded })
     nxt()
   } catch (e) {
+    console.log({ e })
     return res.status(401).json({ message: "Invalid Token" })
   }
 }

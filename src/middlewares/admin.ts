@@ -16,6 +16,9 @@ const auth: RequestHandler = async (req, res, nxt) => {
   }
 
   try {
+    console.log({
+      secret: process.env.SECRET,
+    })
     const decoded: any = jwt.verify(token, process.env.SECRET as string)
     req.body.id = decoded.id
     nxt()
