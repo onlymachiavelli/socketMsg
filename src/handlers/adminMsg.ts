@@ -62,7 +62,7 @@ const SendMessageTextByAdmin: RequestHandler = async (req, res) => {
     chatRoomId: req.body.chatRoomId,
   }
 
-  if (!bodyData.target && !bodyData.chatRoomId) {
+  if (!bodyData.target) {
     return res.status(400).json({ message: "Target or chatRoomId is required" })
   }
 
@@ -78,6 +78,8 @@ const SendMessageTextByAdmin: RequestHandler = async (req, res) => {
   if (!user) {
     return res.status(404).json({ message: "User not found" })
   }
+
+  console.log({ user, d: req.body.target })
 
   //find a chatroom
 
